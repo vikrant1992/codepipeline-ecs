@@ -1,0 +1,13 @@
+version: 0.2
+phases:
+  pre_build:
+    commands:
+      - echo Logging in to Amazon ECR...
+      - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 495176261960.dkr.ecr.us-east-1.amazonaws.com
+      
+  build:
+    commands:
+      - docker build -t alpine .
+      - docker tag alpine:latest 495176261960.dkr.ecr.us-east-1.amazonaws.com/test:latest
+      - docker push 495176261960.dkr.ecr.us-east-1.amazonaws.com/test:latest
+  
